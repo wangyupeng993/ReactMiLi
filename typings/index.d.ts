@@ -1,0 +1,23 @@
+interface ScrollViewProps {
+    scrollX?: boolean
+    scrollY?: boolean
+    // 开启下拉刷新的动作
+    pullingDown?: boolean
+    // 开启上拉加载的动作
+    pullingUp?: boolean
+    // 滚动到顶部/左边 多少距离时触发
+    scrolltoupper?: number
+    // 滚动到底部/右边多少距离时触发
+    scrolltolower?: number
+    // 初始化事件
+    beforeCreate?: Function
+    // 滚动事件
+    onScroll?: Function
+    // 滚动结束
+    onScrollEnd?: Function
+    // 上拉加载
+    onScrollUp?:Function
+    // 下拉刷新
+    onScrollDown?:Function
+    children?: string|object|Array<any>
+}
