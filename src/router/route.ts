@@ -2,7 +2,14 @@ import loadable from 'react-loadable';
 
 const routes = [{
     path: '/',
-    redirect: '/login'
+    redirect: '/skillupgrade'
+},{
+    path: '/skillupgrade',
+    component: loadable({
+        loader: () => import('../views/pages/SkillUpgrade/index'),
+        loading: () => null
+    }),
+    meta: {name: '技术升级', icon: ''}
 },{
     path: '/login',
     hidden: true,

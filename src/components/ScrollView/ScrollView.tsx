@@ -6,6 +6,7 @@ function ScrollView (props:ScrollViewProps) {
     const scrolltolower = props.scrolltolower?props.scrolltolower:100;
     let scroll:any = null;
     const BScrollInit = () => {
+        console.log(props,'===============')
         scroll = new BScroll(wrapper.current, {
             probeType: 3,
             scrollX: props.scrollX,
@@ -50,7 +51,7 @@ function ScrollView (props:ScrollViewProps) {
         BScrollInit();
         return () => {}
     },[])
-    return (<div ref={wrapper} className={'container'}>
+    return (<div ref={wrapper} className={`container ${props.className}`}>
         <div className={''}>{props.children}</div>
     </div>)
 };

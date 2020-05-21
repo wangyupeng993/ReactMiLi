@@ -205,22 +205,22 @@ body,
   border-radius: 0.64rem;
 }
 .radius-round-xs {
-  border-radius: 0.21333333rem 0.21333333rem 0.21333333rem 0.00426667% 50% 50% 50%;
+  border-radius: 0.21333333rem 0.21333333rem 0.21333333rem 0.21333333rem / 50% 50% 50% 50%;
 }
 .radius-round-sm {
-  border-radius: 0.42666667rem 0.42666667rem 0.42666667rem 0.00853333% 50% 50% 50%;
+  border-radius: 0.42666667rem 0.42666667rem 0.42666667rem 0.42666667rem / 50% 50% 50% 50%;
 }
 .radius-round-df {
-  border-radius: 0.64rem 0.64rem 0.64rem 0.0128% 50% 50% 50%;
+  border-radius: 0.64rem 0.64rem 0.64rem 0.64rem / 50% 50% 50% 50%;
 }
 .radius-round-lg {
-  border-radius: 0.85333333rem 0.85333333rem 0.85333333rem 0.01706667% 50% 50% 50%;
+  border-radius: 0.85333333rem 0.85333333rem 0.85333333rem 0.85333333rem / 50% 50% 50% 50%;
 }
 .radius-round-xl {
-  border-radius: 1.06666667rem 1.06666667rem 1.06666667rem 0.02133333% 50% 50% 50%;
+  border-radius: 1.06666667rem 1.06666667rem 1.06666667rem 1.06666667rem / 50% 50% 50% 50%;
 }
 .radius-round-max {
-  border-radius: 1.28rem 1.28rem 1.28rem 0.0256% 50% 50% 50%;
+  border-radius: 1.28rem 1.28rem 1.28rem 1.28rem / 50% 50% 50% 50%;
 }
 .radius-l {
   border-radius: 0.17066667rem 0 0 0.17066667rem;
@@ -327,6 +327,9 @@ body,
 .text-yellow {
   color: #F4EA2A;
 }
+.text-darkYellow {
+  color: #BFA46B;
+}
 .text-olive {
   color: #8dc63f;
 }
@@ -353,6 +356,9 @@ body,
 }
 .text-black {
   color: #474747;
+}
+.text-darkbrown {
+  color: #3B4252;
 }
 .text-grey {
   color: #8799a3;
@@ -418,6 +424,9 @@ body,
 .bg-yellow {
   background-color: #F4EA2A;
 }
+.bg-darkYellow {
+  background-color: #EAC87F;
+}
 .bg-olive {
   background-color: #8dc63f;
 }
@@ -473,7 +482,7 @@ body,
   background-color: #29344E;
 }
 .bg-darkbrown {
-  background-color: #29292D;
+  background-color: #3B4252;
 }
 .bg-redLight {
   background-color: #fadbd9;

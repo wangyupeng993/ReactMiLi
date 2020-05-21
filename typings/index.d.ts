@@ -19,5 +19,6 @@ interface ScrollViewProps {
     onScrollUp?:Function
     // 下拉刷新
     onScrollDown?:Function
+    className?:string|object
     children?: string|object|Array<any>
 }
