@@ -1,11 +1,31 @@
-import React from 'react';
+import React,{useState,useEffect} from "react";
 import {NavLink} from "react-router-dom";
 import {connect} from "react-redux";
 import {arrayDimension} from "../../../api/methods/common";
+import ObjectDetection from "../../../api/methods/validator";
 import {privilege} from './utils';
 import {ScrollView,SwiperView} from "../../../components/index";
+import service from "../../../api/service";
 
-function skill() {
+function Skill(props:any) {
+    const [userId,setUserId] = useState(ObjectDetection.GetUrlParam('userId'));
+    const [userInfo,setUserInfo] = useState({
+        userId: '',
+        userName: ''
+    })
+    useEffect(() => {
+        if (Object.prototype.toString.call(userId) === '[object Null]'||userId == '') {
+            window.open('https://xmmlwl.com/wechatlogin','_self');
+            return ;
+        }
+        service.getUserInfo({userId}).then(response => {
+            if (ObjectDetection.isPlainObject(response)) {
+                const {userInfo} = response;
+                setUserInfo(userInfo);
+            }
+        }).catch(error => {})
+        return () => {}
+    },[])
     return (<div className={'container flex direction-column'}>
         <div className={'flex-grow-min hidden'}>
             <ScrollView scrollY className={'bg-grayLight'}>
@@ -19,11 +39,11 @@ function skill() {
                                      alt="用户头像" />
                             </div>
                             <div className={'basis-lg margin-lr-sm'}>
-                                <p className={'text-lg text-black text-bold'}>多点直播-小赵</p>
+                                <p className={'text-lg text-black text-bold'}>{userInfo.userName}</p>
                                 <p className={'text-df text-gray padding-top-xs'}>未开通</p>
                             </div>
                             <div className={'basis-xs flex items-center'}>
-                                <NavLink to={'/upgradepayment'}>
+                                <NavLink to={`/upgradepayment?userId=${userInfo.userId}`}>
                                     <button className={'bg-darkYellow text-sm text-black white-nowrap padding-lr-sm padding-tb-xs radius-round-sm shadow'}>
                                         立即开通
                                     </button>
@@ -78,7 +98,7 @@ function skill() {
                 </div>
             </ScrollView>
         </div>
-        <NavLink to={'/upgradepayment'}>
+        <NavLink to={`/upgradepayment?userId=${userInfo.userId}`}>
             <div className={'padding-tb-sm bg-darkYellow text-lg text-black text-bold text-center'}>
                 立即开通
             </div>
@@ -97,4 +117,4 @@ const mapDispatchToProps = (dispatch:any) => {
     return {}
 }
 // 通过connect 链接组件和redux数据，传递state数据和dispatch方法
-export default connect(mapStateToProps,mapDispatchToProps)(skill);
+export default connect(mapStateToProps,mapDispatchToProps)(Skill);

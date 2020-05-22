@@ -1,6 +1,6 @@
 import axios from 'axios';
 import queryString from 'querystring';
-const URL:string = process.env.NODE_ENV === 'development'?'/':'';
+const URL:string = process.env.NODE_ENV === 'development'?'/api':'https://xmmlwl.com/api';
 
 const service = axios.create({
     baseURL: URL,
