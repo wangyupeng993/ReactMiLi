@@ -22,3 +22,11 @@ interface ScrollViewProps {
     className?:string|object
     children?: string|object|Array<any>
 }
+
+interface SwiperViewOptions {
+    loop?:boolean
+    scrollX?: boolean
+    scrollY?: boolean
+    children?: string|object|Array<any>
+    className?:string|object
+}

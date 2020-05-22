@@ -234,6 +234,9 @@ body,
 .radius-lrt {
   border-radius: 0.29866667rem 0.29866667rem 0 0;
 }
+.radius-lrb {
+  border-radius: 0 0 0.29866667rem 0.29866667rem;
+}
 .radius-br {
   border-radius: 0 0 0.29866667rem 0;
 }

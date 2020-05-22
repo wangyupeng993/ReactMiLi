@@ -33,4 +33,4 @@ export const privilege = [{
     title: '圈子特权',
     icon: 'cuIcon-shopfill',
     description: '拥有加入不同圈子权限，认识的更多精准的人脉'
-},]
+}]

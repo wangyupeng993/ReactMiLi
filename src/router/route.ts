@@ -11,6 +11,13 @@ const routes = [{
     }),
     meta: {name: '技术升级', icon: ''}
 },{
+    path: '/upgradepayment',
+    component: loadable({
+        loader: () => import('../views/pages/UpgradePayment/index'),
+        loading: () => null
+    }),
+    meta: {name: '技术升级', icon: ''}
+},{
     path: '/login',
     hidden: true,
     component: loadable({
