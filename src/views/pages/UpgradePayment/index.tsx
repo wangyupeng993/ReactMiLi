@@ -1,15 +1,30 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
+import ObjectDetection from "../../../api/methods/validator";
+import service from "../../../api/service";
 function SkillPay () {
-    const [payment,setState] = useState({
+    const [payment,setPaymente] = useState({
         amount: 399,
         year: 1
     })
+    const [userId,setUserId] = useState(ObjectDetection.GetUrlParam('userId'));
     const paymentYear = (year:number) => {
-        setState({
+        setPaymente({
             amount: 399,
             year: year
         })
-    }
+    };
+
+    useEffect(() => {
+        if (Object.prototype.toString.call(userId) === '[object Null]'||userId == '') {
+            window.open('https://xmmlwl.com/wechatlogin','_self');
+            return ;
+        }
+        service.wxUnifiedOrder({userId}).then(response => {
+            console.log(response,'===================')
+        }).catch(error => {})
+        return () => {}
+    },[])
+
     return (<div className={'container flex direction-column'}>
         <div className={'flex-grow-min hidden'}>
             <div className={'UpgradePayment flex direction-column justify-end'}>
@@ -25,10 +40,10 @@ function SkillPay () {
                                  onClick={() => paymentYear(1)}>
                                 <i className={`${payment.year === 1?'cuIcon-roundcheckfill':'cuIcon-roundcheck'}`}></i> 1年
                             </div>
-                            <div className={`basis-xs margin-right-sm ${payment.year === 3?'text-darkYellow':'text-gray'}`}
+                            {/*<div className={`basis-xs margin-right-sm ${payment.year === 3?'text-darkYellow':'text-gray'}`}
                                  onClick={() => paymentYear(3)}>
                                 <i className={`${payment.year === 3?'cuIcon-roundcheckfill':'cuIcon-roundcheck'}`}></i> 3年
-                            </div>
+                            </div>*/}
                         </div>
                     </div>
                     <div className={'flex padding-tb-sm solid-bottom text-df'}>

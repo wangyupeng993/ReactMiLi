@@ -1,3 +1,4 @@
+const wx = require('weixin-js-sdk');
 export const arrayDimension = (array: Array<any>,num: number) => {
     const objArray = [...array];
     const newArray = [];
@@ -5,4 +6,24 @@ export const arrayDimension = (array: Array<any>,num: number) => {
         newArray.push(objArray.splice(0,num))
     }
     return newArray;
+}
+
+export function wxConfig (data:{appId:string,noncestr:string,signature:string,timestamp:string}) {
+    return new Promise((resolve,reject) => {
+        const {appId,noncestr, signature, timestamp} = data;
+        wx.config({
+            debug: false,
+            appId,
+            timestamp: timestamp,
+            nonceStr: noncestr,
+            signature: signature,
+            jsApiList: ['chooseWXPay']
+        })
+        wx.ready(() => {
+            resolve(wx);
+        })
+        wx.error((error:any) => {
+            reject(error)
+        })
+    })
 }

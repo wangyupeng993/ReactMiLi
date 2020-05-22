@@ -12,7 +12,7 @@ function Skill(props:any) {
     const [userInfo,setUserInfo] = useState({
         userId: '',
         userName: ''
-    })
+    });
     useEffect(() => {
         if (Object.prototype.toString.call(userId) === '[object Null]'||userId == '') {
             window.open('https://xmmlwl.com/wechatlogin','_self');

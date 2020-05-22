@@ -1,21 +1,23 @@
 import axios from 'axios';
-import queryString from 'querystring';
 const URL:string = process.env.NODE_ENV === 'development'?'/api':'https://xmmlwl.com/api';
-
+axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8';
 const service = axios.create({
     baseURL: URL,
     timeout: 50000,
     responseType: 'json',
     // 向后端发送请求
-    transformRequest: [response => {
-        return response && response.append ? response : queryString.stringify(response)
-    }],
+    transformRequest: [response => response],
     // 后端返回数据
     transformResponse: [response => response]
 });
 
 // 请求前拦截
-service.interceptors.request.use((config:any):any => config,
+service.interceptors.request.use((config:any):any => {
+    if (config.method === 'post'&&config.headers['Content-Type'] === 'application/json;charset=UTF-8') {
+        config.data = JSON.stringify(config.data);
+    }
+    return config;
+    },
     (error:any): Promise<any> => Promise.reject(error))
 
 // 请求响应后拦截

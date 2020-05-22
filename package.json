@@ -29,7 +29,7 @@
     "react-transition-group": "^4.4.1",
     "redux-thunk": "^2.3.0",
     "typescript": "^3.7.5",
-    "weixinjs": "^0.1.0"
+    "weixin-js-sdk": "^1.6.0"
   },
   "scripts": {
     "start": "react-scripts start",
