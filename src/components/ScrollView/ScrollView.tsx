@@ -34,7 +34,7 @@ function ScrollView (props:ScrollViewProps) {
         }
 
         // 上拉加载更多
-        if (props.onScrollUp||props.onScrollDown) {
+        if (props.onScrollDown) {
             scroll.on('pullingDown', (pos:any) => {
                 props.onScrollDown&&props.onScrollDown(scroll,pos);
                 scroll.refresh();

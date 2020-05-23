@@ -32,7 +32,7 @@ function SwiperView (props: SwiperViewOptions) {
         </div>
         <div className={'absolute absolute-b absolute-l absolute-r text-center'}>
             {childNum.length?childNum.map((item:any,index:any) => {
-                return (<span className={`inline-block padding-xs margin-lr-xs round ${navs == index?'bg-white':'bg-black-transparant'}`}
+                return (<span className={`inline-block padding-xs margin-lr-xs round ${navs === index?'bg-white':'bg-black-transparant'}`}
                               key={index}></span>)
             }):''}
         </div>

@@ -7,20 +7,36 @@ import {privilege} from './utils';
 import {ScrollView,SwiperView} from "../../../components/index";
 import service from "../../../api/service";
 
+/*
+* 将需要的state的节点注入到与此视图数据相关的组件上
+* state：redux 数据
+* props：外部组件或者父组件传递过来的数据
+ */
+const mapStateToProps = (state:any,props:any) => {
+    return {
+        userInfo: state.User.userInfo||{userId: '',userNam:''}
+    }
+}
+
+// 将需要绑定的响应事件注入到组件上
+const mapDispatchToProps = (dispatch:any) => {
+    return {
+        getUserInfo: (payload:{userId:string,userNam:string}) => dispatch({type: 'getUserInfo', payload: {userInfo:payload}})
+    }
+}
+
 function Skill(props:any) {
-    const [userId,setUserId] = useState(ObjectDetection.GetUrlParam('userId'));
-    const [userInfo,setUserInfo] = useState({
-        userId: '',
-        userName: ''
-    });
+    const [userId] = useState(ObjectDetection.GetUrlParam('userId'));
+    const [userInfo,setUserInfo] = useState(props.userInfo);
     useEffect(() => {
-        if (Object.prototype.toString.call(userId) === '[object Null]'||userId == '') {
-            window.open('https://xmmlwl.com/wechatlogin','_self');
+        if (Object.prototype.toString.call(userId) === '[object Null]'||userId === '') {
+            // window.open('https://xmmlwl.com/wechatlogin','_self');
             return ;
         }
         service.getUserInfo({userId}).then(response => {
             if (ObjectDetection.isPlainObject(response)) {
                 const {userInfo} = response;
+                props.getUserInfo(userInfo);
                 setUserInfo(userInfo);
             }
         }).catch(error => {})
@@ -85,7 +101,8 @@ function Skill(props:any) {
                         用户每年缴纳399元技术服务费能更方便的推广，更有效的 做营销展示、更全面拓展社交渠道价值，更直接的实现商业变现！
                     </div>
                     {privilege.map(item => {
-                        return (<div className={'flex margin-lr bg-white radius-sm padding-sm shadow margin-bottom-df'} key={item.id}>
+                        return (<div className={'flex margin-lr bg-white radius-sm padding-sm shadow margin-bottom-df'}
+                                     key={item.id}>
                             <div className={'basis-min flex items-center text-darkbrown'}>
                                 <i className={`${item.icon} text-xsl`}></i>
                             </div>
@@ -104,17 +121,6 @@ function Skill(props:any) {
             </div>
         </NavLink>
     </div>)
-}
-/*
-* 将需要的state的节点注入到与此视图数据相关的组件上
-* state：redux 数据
-* props：外部组件或者父组件传递过来的数据
- */
-const mapStateToProps = (state:any,props:any) => state
-
-// 将需要绑定的响应事件注入到组件上
-const mapDispatchToProps = (dispatch:any) => {
-    return {}
 }
 // 通过connect 链接组件和redux数据，传递state数据和dispatch方法
 export default connect(mapStateToProps,mapDispatchToProps)(Skill);

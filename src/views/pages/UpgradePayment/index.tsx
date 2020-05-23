@@ -15,7 +15,7 @@ function SkillPay () {
     };
 
     useEffect(() => {
-        if (Object.prototype.toString.call(userId) === '[object Null]'||userId == '') {
+        if (Object.prototype.toString.call(userId) === '[object Null]'||userId === '') {
             window.open('https://xmmlwl.com/wechatlogin','_self');
             return ;
         }
