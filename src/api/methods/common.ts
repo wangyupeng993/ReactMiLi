@@ -8,15 +8,15 @@ export const arrayDimension = (array: Array<any>,num: number) => {
     return newArray;
 }
 
-export function wxConfig (data:{appId:string,noncestr:string,signature:string,timestamp:string}) {
+export function wxConfig (data:{appId:string,nonceStr:string,signature:string,timestamp:string}) {
     return new Promise((resolve,reject) => {
-        const {appId,noncestr, signature, timestamp} = data;
+        const {appId,nonceStr, signature, timestamp} = data;
         wx.config({
-            debug: false,
+            debug: true,
             appId,
-            timestamp: timestamp,
-            nonceStr: noncestr,
-            signature: signature,
+            timestamp,
+            nonceStr,
+            signature,
             jsApiList: ['chooseWXPay','miniProgram']
         });
         wx.ready(() => {

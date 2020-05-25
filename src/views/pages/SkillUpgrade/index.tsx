@@ -43,7 +43,7 @@ function Skill(props:any) {
         return () => {}
     },[])
     return (<div className={'container flex direction-column'}>
-        <div className={'flex-grow-min hidden'}>
+        <div className={'basis-max hidden'}>
             <ScrollView scrollY className={'bg-grayLight'}>
                 <div className={'skillupgrade flex direction-column justify-end'}>
                     <div className={'margin-lr bg-white radius-lrt padding-sm'}>

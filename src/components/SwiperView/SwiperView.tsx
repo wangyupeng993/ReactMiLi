@@ -11,6 +11,7 @@ function SwiperView (props: SwiperViewOptions) {
             scrollX: props.scrollX,
             scrollY: props.scrollY,
             momentum: false,
+            click: true,
             snap: {
                 loop: props.loop,
                 threshold: 0.2

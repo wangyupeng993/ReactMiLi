@@ -30,3 +30,10 @@ interface SwiperViewOptions {
     children?: string|object|Array<any>
     className?:string|object
 }
+
+interface wxConfigOptions {
+    appid: string
+    nonceStr: string
+    signature: string
+    timestamp: string
+}

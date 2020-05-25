@@ -1,6 +1,6 @@
 import axios from 'axios';
+import queryString from 'querystring';
 const URL:string = process.env.NODE_ENV === 'development'?'/api':'https://xmmlwl.com/api';
-axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8';
 const service = axios.create({
     baseURL: URL,
     timeout: 50000,
@@ -15,6 +15,8 @@ const service = axios.create({
 service.interceptors.request.use((config:any):any => {
     if (config.method === 'post'&&config.headers['Content-Type'] === 'application/json;charset=UTF-8') {
         config.data = JSON.stringify(config.data);
+    }else{
+        config.data = queryString.stringify(config.data);
     }
     return config;
     },

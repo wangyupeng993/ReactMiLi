@@ -35,35 +35,34 @@ function SkillPay () {
             year: year
         })
     };
+    const wxPayment = () => {
+        service.getWxConfig({url: window.location.href.split('#')[0]}).then((response: wxConfigOptions) => {
+            if (Object.prototype.toString.call(response) === '[object Object]') {
+                const {appid,nonceStr,signature,timestamp} = response;
+                wxConfig({appId:appid,nonceStr,signature,timestamp}).then(wx => {
+                    service.wxUnifiedOrder({outOrderNo:0,userId,parentId: 0,payMoney: payment.amount})
+                        .then(response => {
+                            if (Object.prototype.toString.call(response.object) === '[object Object]') {
+                                const {appId,nonceStr,paySign,timeStamp} = response.object;
+                                console.log(response.object,'微信支付参数 ==============================');
+                            }
+                        })
+                    console.log(wx,'=====================')
+                })
+            }
+        })
+    }
 
     useEffect(() => {
         if (Object.prototype.toString.call(userId) === '[object Null]'||userId === '') {
-            window.open('https://xmmlwl.com/wechatlogin','_self');
+            // window.open('https://xmmlwl.com/wechatlogin','_self');
             return ;
         }
-        service.getWxConfig({url: window.location.href}).then((response:any) => {
-            if (Object.prototype.toString.call(response) === '[object Object]') {
-                const {appid,nonceStr,signature,timestamp} = response;
-                wxConfig({appId: appid,noncestr:nonceStr,signature,timestamp}).then(response => {
-                    console.log(response,'=====================')
-                }).catch(error => {
-                    console.log(error,'======================')
-                })
-            }
-        }).catch(error => {
-            console.log(error,'=========================')
-        })
-        /*service.wxUnifiedOrder({outOrderNo:0,userId,parentId: 0,payMoney: 399})
-            .then(response => {
-                if (Object.prototype.toString.call(response.object) === '[object Object]') {
-                    const {appId,nonceStr,paySign,timeStamp} = response.object;
-                }
-        }).catch(error => {})*/
         return () => {}
     },[])
 
     return (<div className={'container flex direction-column'}>
-        <div className={'flex-grow-min hidden'}>
+        <div className={'basis-max hidden'}>
             <div className={'UpgradePayment flex direction-column justify-end'}>
                 <div className={'margin-lr bg-white radius-lrt padding-tb-sm padding-lr-df'}>
                     <div className={'flex padding-tb-sm solid-bottom text-df'}>
@@ -96,7 +95,8 @@ function SkillPay () {
                 <i className={'text-darkYellow'}>* </i>
                 开通即视为同意 <i className={'text-darkYellow'}>《多点播用户协议》</i>关于会员升级的相关内容</div>
         </div>
-        <div className={'padding-tb-sm bg-darkYellow text-black text-lg text-bold text-center'}>
+        <div onClick={() => wxPayment}
+             className={'padding-tb-sm bg-darkYellow text-black text-lg text-bold text-center'}>
             立即支付
         </div>
     </div>);
