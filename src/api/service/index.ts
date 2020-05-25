@@ -1,13 +1,18 @@
 import request from '../../utils/request/index';
 
 const service = {
-    getUserInfo: (data:any):Promise<any> => request({
-        url: '/queryUserAllInfo',
+    getWxConfig: (data: {url: string}) => request({
+        url: '/wechatParam',
         method: 'POST',
         data
     }),
-    wxUnifiedOrder: (data: {userId: string}):Promise<any> => request({
-        url: '/doWechatUnifiedOrder',
+    getUserInfo: (data:any):Promise<any> => request({
+        url: '/querySmallUserInfo',
+        method: 'POST',
+        data
+    }),
+    wxUnifiedOrder: (data: {outOrderNo:number,userId: string,payMoney: number,parentId: number}):Promise<any> => request({
+        url: '/doUnifiedOrder',
         method: 'POST',
         data
     })

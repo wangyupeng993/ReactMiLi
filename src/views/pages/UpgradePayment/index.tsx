@@ -1,12 +1,34 @@
 import React,{useState,useEffect} from "react";
 import ObjectDetection from "../../../api/methods/validator";
+import {connect} from "react-redux";
 import service from "../../../api/service";
+import {wxConfig} from "../../../api/methods/common";
+// const wx = require('weixin-js-sdk');
+
+/*
+* 将需要的state的节点注入到与此视图数据相关的组件上
+* state：redux 数据
+* props：外部组件或者父组件传递过来的数据
+ */
+const mapStateToProps = (state:any,props:any) => {
+    return {
+        userInfo: state.User.userInfo||{userId: '',userNam:''}
+    }
+}
+
+// 将需要绑定的响应事件注入到组件上
+const mapDispatchToProps = (dispatch:any) => {
+    return {
+        getUserInfo: (payload:{userId:string,userNam:string}) => dispatch({type: 'getUserInfo', payload: {userInfo:payload}})
+    }
+}
+
 function SkillPay () {
     const [payment,setPaymente] = useState({
         amount: 399,
         year: 1
     })
-    const [userId,setUserId] = useState(ObjectDetection.GetUrlParam('userId'));
+    const [userId] = useState(ObjectDetection.GetUrlParam('userId'));
     const paymentYear = (year:number) => {
         setPaymente({
             amount: 399,
@@ -19,9 +41,24 @@ function SkillPay () {
             window.open('https://xmmlwl.com/wechatlogin','_self');
             return ;
         }
-        service.wxUnifiedOrder({userId}).then(response => {
-            console.log(response,'===================')
-        }).catch(error => {})
+        service.getWxConfig({url: window.location.href}).then((response:any) => {
+            if (Object.prototype.toString.call(response) === '[object Object]') {
+                const {appid,nonceStr,signature,timestamp} = response;
+                wxConfig({appId: appid,noncestr:nonceStr,signature,timestamp}).then(response => {
+                    console.log(response,'=====================')
+                }).catch(error => {
+                    console.log(error,'======================')
+                })
+            }
+        }).catch(error => {
+            console.log(error,'=========================')
+        })
+        /*service.wxUnifiedOrder({outOrderNo:0,userId,parentId: 0,payMoney: 399})
+            .then(response => {
+                if (Object.prototype.toString.call(response.object) === '[object Object]') {
+                    const {appId,nonceStr,paySign,timeStamp} = response.object;
+                }
+        }).catch(error => {})*/
         return () => {}
     },[])
 
@@ -40,10 +77,6 @@ function SkillPay () {
                                  onClick={() => paymentYear(1)}>
                                 <i className={`${payment.year === 1?'cuIcon-roundcheckfill':'cuIcon-roundcheck'}`}></i> 1年
                             </div>
-                            {/*<div className={`basis-xs margin-right-sm ${payment.year === 3?'text-darkYellow':'text-gray'}`}
-                                 onClick={() => paymentYear(3)}>
-                                <i className={`${payment.year === 3?'cuIcon-roundcheckfill':'cuIcon-roundcheck'}`}></i> 3年
-                            </div>*/}
                         </div>
                     </div>
                     <div className={'flex padding-tb-sm solid-bottom text-df'}>
@@ -67,7 +100,7 @@ function SkillPay () {
             立即支付
         </div>
     </div>);
-}
-export default SkillPay;
+};
+export default connect(mapStateToProps,mapDispatchToProps)(SkillPay);
 
 

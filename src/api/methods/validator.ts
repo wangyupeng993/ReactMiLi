@@ -52,7 +52,7 @@ class ObjectDetection {
     // 获取url参数
     static GetUrlParam (name:string):string {
         const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
-        const StrArr:any = window.location.search.substr(1).match(reg)
+        const StrArr:any = window.location.search.substr(1).match(reg)||window.location.hash.substring((window.location.hash.search(/\?/)) + 1).match(reg)
         if (StrArr !== null) {
             return decodeURI(StrArr[2])
         }

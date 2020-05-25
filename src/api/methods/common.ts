@@ -17,13 +17,13 @@ export function wxConfig (data:{appId:string,noncestr:string,signature:string,ti
             timestamp: timestamp,
             nonceStr: noncestr,
             signature: signature,
-            jsApiList: ['chooseWXPay']
-        })
+            jsApiList: ['chooseWXPay','miniProgram']
+        });
         wx.ready(() => {
             resolve(wx);
-        })
+        });
         wx.error((error:any) => {
             reject(error)
-        })
+        });
     })
 }

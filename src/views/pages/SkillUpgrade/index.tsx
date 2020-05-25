@@ -29,7 +29,7 @@ function Skill(props:any) {
     const [userId] = useState(ObjectDetection.GetUrlParam('userId'));
     const [userInfo,setUserInfo] = useState(props.userInfo);
     useEffect(() => {
-        if (Object.prototype.toString.call(userId) === '[object Null]'||userId === '') {
+        if (Object.prototype.toString.call(userId) === '[object Null]'||ObjectDetection.isNull(userId)) {
             // window.open('https://xmmlwl.com/wechatlogin','_self');
             return ;
         }
@@ -51,8 +51,8 @@ function Skill(props:any) {
                             <div className={'basis-min'}>
                                 <img className={'round'}
                                      style={{width: `${88/46.875}rem`,height: `${88/46.875}rem`}}
-                                     src={require('../../../assets/images/user.png')}
-                                     alt="用户头像" />
+                                     src={userInfo.userImg}
+                                     alt="" />
                             </div>
                             <div className={'basis-lg margin-lr-sm'}>
                                 <p className={'text-lg text-black text-bold'}>{userInfo.userName}</p>

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {BrowserRouter as Router} from 'react-router-dom';
+import {HashRouter} from 'react-router-dom';
 import store from "./redux";
 import App from "./views/layout/layout";
 import './assets/style/index.css';
@@ -9,9 +9,9 @@ import './pixclPatio';
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router>
+        <HashRouter>
             <App />
-        </Router>
+        </HashRouter>
     </Provider>,
   document.getElementById('root')
 );
