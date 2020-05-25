@@ -2,7 +2,8 @@ import React,{useState,useEffect} from "react";
 import ObjectDetection from "../../../api/methods/validator";
 import {connect} from "react-redux";
 import service from "../../../api/service";
-import {wxConfig} from "../../../api/methods/common";
+import {wxConfig,wxRequestPayment} from "../../../api/methods/common";
+import wx from "weixin-jsapi";
 // const wx = require('weixin-js-sdk');
 
 /*
@@ -35,22 +36,39 @@ function SkillPay () {
             year: year
         })
     };
-    const wxPayment = () => {
-        service.getWxConfig({url: window.location.href.split('#')[0]}).then((response: wxConfigOptions) => {
-            if (Object.prototype.toString.call(response) === '[object Object]') {
-                const {appid,nonceStr,signature,timestamp} = response;
-                wxConfig({appId:appid,nonceStr,signature,timestamp}).then(wx => {
-                    service.wxUnifiedOrder({outOrderNo:0,userId,parentId: 0,payMoney: payment.amount})
-                        .then(response => {
-                            if (Object.prototype.toString.call(response.object) === '[object Object]') {
-                                const {appId,nonceStr,paySign,timeStamp} = response.object;
-                                console.log(response.object,'微信支付参数 ==============================');
-                            }
-                        })
-                    console.log(wx,'=====================')
-                })
-            }
-        })
+    const wxPayment = async () => {
+        try {
+            const wxOptions = await service.getWxConfig({url: window.location.href.split('#')[0]});
+            await wxConfig({
+                appId:wxOptions.appid,
+                nonceStr:wxOptions.nonceStr,
+                signature: wxOptions.signature,
+                timestamp: Number(wxOptions.timestamp),
+                success: async (wx:any) => {
+                    const wxOrder:{object:wxPaymentOptions} = await service.wxUnifiedOrder({
+                        outOrderNo:0,
+                        userId,parentId: 0,
+                        payMoney: payment.amount
+                    });
+                    const {nonceStr,paySign,timeStamp,signType} = wxOrder.object;
+                    console.log(wx,'=====================================');
+                    wx.chooseWXPay({
+                        signType,nonceStr,paySign,timestamp:timeStamp,package: wxOrder.object.package,
+                        success: (response:any) => {
+                        },
+                        fail: (error:any) => {
+                        }
+                    })
+                    /*const wxPayOptions = await wxRequestPayment({
+                        nonceStr,paySign,timeStamp,signType,
+                        package: wxOrder.object.package
+                    });*/
+                },
+                fail: (error:any) => {console.log(error)}
+            });
+        }catch (e) {
+            console.log(e,'=========================')
+        }
     }
 
     useEffect(() => {
@@ -95,7 +113,7 @@ function SkillPay () {
                 <i className={'text-darkYellow'}>* </i>
                 开通即视为同意 <i className={'text-darkYellow'}>《多点播用户协议》</i>关于会员升级的相关内容</div>
         </div>
-        <div onClick={() => wxPayment}
+        <div onClick={() => wxPayment()}
              className={'padding-tb-sm bg-darkYellow text-black text-lg text-bold text-center'}>
             立即支付
         </div>

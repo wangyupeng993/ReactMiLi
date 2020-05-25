@@ -2,7 +2,7 @@
   "name": "react-mobile",
   "version": "0.1.0",
   "private": true,
-  "homepage":".",
+  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -30,7 +30,8 @@
     "react-transition-group": "^4.4.1",
     "redux-thunk": "^2.3.0",
     "typescript": "^3.7.5",
-    "weixin-js-sdk": "^1.6.0"
+    "weixin-js-sdk": "^1.6.0",
+    "weixin-jsapi": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

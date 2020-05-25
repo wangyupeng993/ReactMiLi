@@ -32,8 +32,19 @@ interface SwiperViewOptions {
 }
 
 interface wxConfigOptions {
-    appid: string
+    appId: string
     nonceStr: string
     signature: string
-    timestamp: string
+    timestamp: number,
+    success?: Function,
+    fail?: Function
+}
+
+interface wxPaymentOptions {
+    nonceStr: string
+    orderNo?: string
+    package: string
+    paySign: string
+    signType: string
+    timeStamp: string
 }

@@ -1,4 +1,4 @@
-const wx = require('weixin-js-sdk');
+import wx from 'weixin-jsapi';
 export const arrayDimension = (array: Array<any>,num: number) => {
     const objArray = [...array];
     const newArray = [];
@@ -8,9 +8,9 @@ export const arrayDimension = (array: Array<any>,num: number) => {
     return newArray;
 }
 
-export function wxConfig (data:{appId:string,nonceStr:string,signature:string,timestamp:string}) {
+export function wxConfig (data:wxConfigOptions) {
     return new Promise((resolve,reject) => {
-        const {appId,nonceStr, signature, timestamp} = data;
+        const {appId,nonceStr, signature, timestamp,success,fail} = data;
         wx.config({
             debug: true,
             appId,
@@ -20,10 +20,27 @@ export function wxConfig (data:{appId:string,nonceStr:string,signature:string,ti
             jsApiList: ['chooseWXPay','miniProgram']
         });
         wx.ready(() => {
+            success&&success(wx);
             resolve(wx);
         });
         wx.error((error:any) => {
+            fail&&fail(error);
             reject(error)
         });
     })
 }
+
+export function wxRequestPayment(data: wxPaymentOptions) {
+    return new Promise((resolve, reject) => {
+        const {signType,nonceStr,paySign,timeStamp} = data;
+        wx.chooseWXPay({
+            signType,nonceStr,paySign,timestamp:timeStamp,package: data.package,
+            success: (response:any) => {
+                resolve(response);
+            },
+            fail: (error:any) => {
+                reject(error);
+            }
+        })
+    });
+};
