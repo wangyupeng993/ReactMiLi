@@ -54,7 +54,7 @@ function SkillPay () {
                 if (ObjectDetection.isWeex()) {
                     wx.miniProgram.getEnv(async (response:{miniprogram:boolean}) => {
                         if (response.miniprogram) {
-                            wx.miniProgram.navigateTo({url: '/pages/views/webViewPay/webViewPay'});
+                            wx.miniProgram.navigateTo({url: '/pages/views/webViewPay/webViewPay?type=member'});
                         }else{
                             const {nonceStr,paySign,timeStamp,signType} = wxOrder.object;
                             const wxPayOptions = await wxRequestPayment({
