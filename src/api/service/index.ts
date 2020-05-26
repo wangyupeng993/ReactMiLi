@@ -21,6 +21,10 @@ const service = {
         url: '/doUnifiedOrder',
         method: 'POST',
         data
+    }),
+    userWxPayStatus: (data: {userId: string}):Promise<any> => request({
+        url: `/queryUserPayStatus?userId=${data.userId}`,
+        method: 'POST'
     })
 }
 

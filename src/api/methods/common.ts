@@ -1,4 +1,4 @@
-import wx from 'weixin-jsapi';
+const wx = require('weixin-js-sdk');
 export const arrayDimension = (array: Array<any>,num: number) => {
     const objArray = [...array];
     const newArray = [];
@@ -12,7 +12,7 @@ export function wxConfig (data:wxConfigOptions) {
     return new Promise((resolve,reject) => {
         const {appId,nonceStr, signature, timestamp} = data;
         wx.config({
-            debug: true,
+            debug: process.env.NODE_ENV === 'development',
             appId,
             timestamp,
             nonceStr,

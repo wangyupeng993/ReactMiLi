@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import service from "../../../api/service";
 import {wxConfig,wxRequestPayment} from "../../../api/methods/common";
 import {ScrollView} from "../../../components/index";
+import Storage from "../../../api/methods/storage";
 
 /*
 * 将需要的state的节点注入到与此视图数据相关的组件上
@@ -12,7 +13,7 @@ import {ScrollView} from "../../../components/index";
  */
 const mapStateToProps = (state:any,props:any) => {
     return {
-        userInfo: state.User.userInfo||{userId: '',userNam:''}
+        userInfo: state.User.userInfo||Storage.getSession('userInfo')
     }
 }
 
@@ -28,7 +29,7 @@ function SkillPay () {
         amount: 399,
         year: 1
     })
-    const [userId] = useState(ObjectDetection.GetUrlParam('userId'));
+    const [userInfo,setUserInfo] = useState(Storage.getSession('userInfo'));
     const paymentYear = (year:number) => {
         setPaymente({
             amount: 399,
@@ -43,17 +44,35 @@ function SkillPay () {
                 nonceStr:wxOptions.nonceStr,
                 signature: wxOptions.signature,
                 timestamp: Number(wxOptions.timestamp)
-            }).then(async (wx) => {
+            }).then(async (wx:any) => {
                 const wxOrder:{object:wxPaymentOptions} = await service.wxUnifiedOrder({
                     outOrderNo:0,
-                    userId,parentId: 0,
+                    userId: userInfo.userId,
+                    parentId: 0,
                     payMoney: payment.amount
                 });
-                const {nonceStr,paySign,timeStamp,signType} = wxOrder.object;
-                const wxPayOptions = await wxRequestPayment({
-                    nonceStr,paySign,timeStamp,signType,
-                    package: wxOrder.object.package
-                });
+                if (ObjectDetection.isWeex()) {
+                    wx.miniProgram.getEnv(async (response:{miniprogram:boolean}) => {
+                        if (response.miniprogram) {
+                            wx.miniProgram.navigateTo({url: '/pages/views/webViewPay/webViewPay'});
+                        }else{
+                            const {nonceStr,paySign,timeStamp,signType} = wxOrder.object;
+                            const wxPayOptions = await wxRequestPayment({
+                                nonceStr,paySign,timeStamp,signType,
+                                package: wxOrder.object.package
+                            }).then(() => {
+                                service.userWxPayStatus({userId: userInfo.userId})
+                                    .then(response => {
+                                        setUserInfo({...userInfo,payStatus: response.payStatus})
+                                        sessionStorage.setItem('userInfo',JSON.stringify({
+                                            ...userInfo,
+                                            payStatus: response.payStatus
+                                        }));
+                                    })
+                            });
+                        }
+                    })
+                }
             });
         }catch (e) {
             console.log(e,'=========================')
@@ -61,10 +80,11 @@ function SkillPay () {
     }
 
     useEffect(() => {
-        if (Object.prototype.toString.call(userId) === '[object Null]'||userId === '') {
-            // window.open('https://xmmlwl.com/wechatlogin','_self');
+        if (Object.prototype.toString.call(userInfo.userId) === '[object Null]'||ObjectDetection.isNull(userInfo.userId)) {
+            window.open('https://xmmlwl.com/wechatlogin','_self');
             return ;
         }
+
         return () => {}
     },[])
 

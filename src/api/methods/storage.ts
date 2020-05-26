@@ -1,22 +1,13 @@
 class Storage {
-    static setLocal (n: string,v: any): void {
-        window.localStorage.setItem(n, JSON.stringify(v))
-    }
     static getLocal (n: string) {
-        return window.localStorage.getItem(n)
-    }
-    static removeLocal (n: string): void {
-        window.localStorage.removeItem(n)
-    }
-    static setSession (n: string,v: any): void {
-        window.sessionStorage.setItem(n, JSON.stringify(v))
+        const key:any = localStorage.getItem(n);
+        console.log(JSON.parse(key))
+        return key;
     }
     static getSession (n: string) {
-        return window.sessionStorage.getItem(n)
+        const key:any = sessionStorage.getItem(n);
+        return JSON.parse(key)
     }
-    static removeSession (n: string): void {
-        window.sessionStorage.removeItem(n)
-    }
-}
+};
 
 export default Storage

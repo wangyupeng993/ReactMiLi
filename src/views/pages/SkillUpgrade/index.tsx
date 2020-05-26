@@ -30,13 +30,14 @@ function Skill(props:any) {
     const [userInfo,setUserInfo] = useState(props.userInfo);
     useEffect(() => {
         if (Object.prototype.toString.call(userId) === '[object Null]'||ObjectDetection.isNull(userId)) {
-            // window.open('https://xmmlwl.com/wechatlogin','_self');
+            window.open('https://xmmlwl.com/wechatlogin','_self');
             return ;
         }
         service.getUserInfo({userId}).then(response => {
             if (ObjectDetection.isPlainObject(response)) {
                 const {userInfo} = response;
                 props.getUserInfo(userInfo);
+                sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
                 setUserInfo(userInfo);
             }
         }).catch(error => {})
@@ -56,12 +57,12 @@ function Skill(props:any) {
                             </div>
                             <div className={'basis-lg margin-lr-sm'}>
                                 <p className={'text-lg text-black text-bold'}>{userInfo.userName}</p>
-                                <p className={'text-df text-gray padding-top-xs'}>未开通</p>
+                                <p className={'text-df text-gray padding-top-xs'}>{userInfo.payStatus?'已开通':'未开通'}</p>
                             </div>
                             <div className={'basis-xs flex items-center'}>
                                 <NavLink to={`/upgradepayment?userId=${userInfo.userId}`}>
                                     <button className={'bg-darkYellow text-sm text-black white-nowrap padding-lr-sm padding-tb-xs radius-round-sm shadow'}>
-                                        立即开通
+                                        {userInfo.payStatus?'立即续费':'立即开通'}
                                     </button>
                                 </NavLink>
                             </div>
@@ -117,7 +118,7 @@ function Skill(props:any) {
         </div>
         <NavLink to={`/upgradepayment?userId=${userInfo.userId}`}>
             <div className={'padding-tb-sm bg-darkYellow text-lg text-black text-bold text-center'}>
-                立即开通
+                {userInfo.payStatus?'立即续费':'立即开通'}
             </div>
         </NavLink>
     </div>)
