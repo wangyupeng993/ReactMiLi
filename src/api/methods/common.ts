@@ -10,7 +10,7 @@ export const arrayDimension = (array: Array<any>,num: number) => {
 
 export function wxConfig (data:wxConfigOptions) {
     return new Promise((resolve,reject) => {
-        const {appId,nonceStr, signature, timestamp,success,fail} = data;
+        const {appId,nonceStr, signature, timestamp} = data;
         wx.config({
             debug: true,
             appId,
@@ -20,11 +20,9 @@ export function wxConfig (data:wxConfigOptions) {
             jsApiList: ['chooseWXPay','miniProgram']
         });
         wx.ready(() => {
-            success&&success(wx);
             resolve(wx);
         });
         wx.error((error:any) => {
-            fail&&fail(error);
             reject(error)
         });
     })

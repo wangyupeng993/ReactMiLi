@@ -8,23 +8,29 @@ function SwiperView (props: SwiperViewOptions) {
     let swiper:any = null;
     const BScrollInit = () => {
         swiper = new BScroll(wrap.current,{
+            probeType: 3,
             scrollX: props.scrollX,
             scrollY: props.scrollY,
             momentum: false,
             click: true,
+            HWCompositing: false,
             snap: {
                 loop: props.loop,
                 threshold: 0.2
             }
         });
-        swiper.on('scrollEnd', () => {
-            setState(swiper.getCurrentPage().pageX);
+        swiper.refresh();
+        swiper.on('scrollEnd', async () => {
+            await setState(swiper.getCurrentPage().pageX);
+            await swiper.refresh();
         })
     };
 
     useEffect(() => {
         BScrollInit();
-        return () => {}
+        return () => {
+            swiper.destroy();
+        }
     },[])
 
     return (<div ref={wrap} className={`container relative hidden ${props.className}`}>

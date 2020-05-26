@@ -1,5 +1,6 @@
 import React,{useEffect,useRef,RefObject} from 'react';
 import BScroll from 'better-scroll';
+import ObjectDetection from "../../api/methods/validator";
 function ScrollView (props:ScrollViewProps) {
     const wrapper:RefObject<any> = useRef();
     /*const scrolltoupper = props.scrolltoupper?props.scrolltoupper:100;
@@ -10,12 +11,13 @@ function ScrollView (props:ScrollViewProps) {
             probeType: 3,
             scrollX: props.scrollX,
             scrollY: props.scrollY,
+            bounce: !ObjectDetection.isIOS(),
             click: true
-        })
+        });
+        scroll.refresh();
 
         if (scroll.enabled&&props.beforeCreate) {
             props.beforeCreate(scroll);
-            scroll.refresh();
         }
 
         // 监听滚动事件
@@ -29,7 +31,6 @@ function ScrollView (props:ScrollViewProps) {
         if (props.onScrollEnd) {
             scroll.on('scrollEnd', (pos:any) => {
                 props.onScrollEnd&&props.onScrollEnd(scroll,pos);
-                scroll.refresh();
             });
         }
 
@@ -37,7 +38,6 @@ function ScrollView (props:ScrollViewProps) {
         if (props.onScrollDown) {
             scroll.on('pullingDown', (pos:any) => {
                 props.onScrollDown&&props.onScrollDown(scroll,pos);
-                scroll.refresh();
             })
             /*scroll.on('touchEnd', (pos:any) => {
                 // 上拉加载更多
@@ -60,9 +60,11 @@ function ScrollView (props:ScrollViewProps) {
     }
     useEffect(() => {
         BScrollInit();
-        return () => {}
+        return () => {
+            scroll.destroy();
+        }
     },[])
-    return (<div ref={wrapper} className={`container ${props.className}`}>
+    return (<div ref={wrapper} className={`container hidden ${props.className?props.className:''}`}>
         <div className={''}>{props.children}</div>
     </div>)
 };

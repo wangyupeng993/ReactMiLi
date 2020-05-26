@@ -64,6 +64,11 @@ class ObjectDetection {
         const isPC = Navigator.toLowerCase().match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
         return isPC === null
     }
+    static isIOS () {
+        const Navigator = navigator.userAgent.toLowerCase();
+        const IOS = Navigator.toLowerCase().match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Windows Phone)/i);
+        return IOS !== null;
+    }
     // 判断手机是否横竖屏
     static isVertical () {
         return window.orientation === 180 || window.orientation === 0

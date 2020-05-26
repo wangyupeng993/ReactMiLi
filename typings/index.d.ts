@@ -1,6 +1,7 @@
 interface ScrollViewProps {
     scrollX?: boolean
     scrollY?: boolean
+    eventPassthrough?: 'vertical'|'horizontal'|''
     // 开启下拉刷新的动作
     pullingDown?: boolean
     // 开启上拉加载的动作
