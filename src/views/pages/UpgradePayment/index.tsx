@@ -94,11 +94,11 @@ function SkillPay () {
                 <div className={'UpgradePayment flex direction-column justify-end'}>
                     <div className={'margin-lr bg-white radius-lrt padding-tb-sm padding-lr-df'}>
                         <div className={'flex padding-tb-sm solid-bottom text-df'}>
-                            <div className="basis-xs margin-right-sm text-gray">支付方式</div>
+                            <div className="basis-xs margin-right-sm text-gray white-nowrap">支付方式</div>
                             <div className="basis-xl text-darkYellow">在线支付</div>
                         </div>
                         <div className={'flex padding-tb-sm solid-bottom text-df'}>
-                            <div className="basis-xs margin-right-sm text-gray">购买年限</div>
+                            <div className="basis-xs margin-right-sm text-gray white-nowrap">购买年限</div>
                             <div className="basis-xl flex">
                                 <div className={`basis-xs margin-right-xl ${payment.year === 1?'text-darkYellow':'text-gray'}`}
                                      onClick={() => paymentYear(1)}>
@@ -107,13 +107,13 @@ function SkillPay () {
                             </div>
                         </div>
                         <div className={'flex padding-tb-sm solid-bottom text-df'}>
-                            <div className="basis-xs margin-right-sm text-gray">应付金额</div>
+                            <div className="basis-xs margin-right-sm text-gray white-nowrap">应付金额</div>
                             <div className="basis-xl text-darkYellow">￥{payment.year * payment.amount}</div>
                         </div>
                     </div>
                 </div>
                 <div className={'flex padding-lr-df padding-bottom-sm margin-lr bg-white shadow radius-lrb text-df'}>
-                    <div className={'basis-xs text-gray white-nowrap margin-right'}>收货地址</div>
+                    <div className={'basis-xs text-gray white-nowrap margin-right white-nowrap'}>收货地址</div>
                     <div className={'basis-lg text-darkYellow'}>上门服务</div>
                     <div className={'basis-min text-darkYellow'}>
                         <i className={'cuIcon-right fr text-xl'}></i>
