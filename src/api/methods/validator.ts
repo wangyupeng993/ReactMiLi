@@ -1,51 +1,51 @@
 class ObjectDetection {
     // 检测数据是不是除了symbol外的原始数据
-    isStatic (V:any) {
+    isStatic (V: any) {
         return (typeof V === 'string' || typeof V === 'number' || typeof V === 'boolean' || typeof V === 'undefined' || V === null)
     }
     // 检测数据是不是原始数据
-    isPrimitive (V:any) {
+    isPrimitive (V: any) {
         return this.isStatic(V) || typeof V === 'symbol'
     }
     // 判断数据是不是引用类型的数据 (例如： arrays, functions, objects, regexes, new Number(0),以及 new String(''))
-    static isObject (V:any) {
+    static isObject (V: any) {
         const type = typeof V
         return V !== null && (type === 'object' || type === 'function')
     }
     // 检查 value 是否是 类对象。 如果一个值是类对象，那么它不应该是 null，而且 typeof 后的结果是 "object"
-    static isObjectLike (V:any) {
+    static isObjectLike (V: any) {
         return V !== null && typeof V === 'object'
     }
     // 获取数据类型，返回结果为 Number、String、Object、Array等
-    static getRawType (V:any) {
+    static getRawType (V: any) {
         return Object.prototype.toString.call(V).slice(8, -1)
     }
     // 判断数据是不是Object类型的数据
-    static isPlainObject (O:any) {
+    static isPlainObject (O: any) {
         return Object.prototype.toString.call(O) === '[object Object]'
     }
     // 判断数据是不是数组类型的数据
-    static isArray (A:any) {
+    static isArray (A: any) {
         return Object.prototype.toString.call(A) === '[object Array]'
     }
     // 判断数据是不是正则对象
-    static isRegExp (V:any) {
+    static isRegExp (V: any) {
         return Object.prototype.toString.call(V) === '[object RegExp]'
     }
     // 判断数据是不是时间对象
-    static isDate (V:any) {
+    static isDate (V: any) {
         return Object.prototype.toString.call(V) === '[object Date]'
     }
     // 判断是不是浏览器内置函数
-    static isNative (V:any) {
+    static isNative (V: any) {
         return typeof V === 'function' && /native code/.test(V.toString())
     }
     // 检查是不是函数
-    static isFunction (V:any) {
+    static isFunction (V: any) {
         return Object.prototype.toString.call(V) === '[object Function]'
     }
     // 检查 value 是否为有效的类数组长度
-    isLength (V:any) {
+    isLength (V: any) {
         return typeof V === 'number' && V > -1 && V % 1 === 0 && V <= Number.MAX_SAFE_INTEGER
     }
 
@@ -59,15 +59,20 @@ class ObjectDetection {
         return StrArr
     }
     // 检测是否为PC端
-    static isPCBroswer () {
+    static isPCBroswer (): boolean {
         const Navigator = navigator.userAgent.toLowerCase()
         const isPC = Navigator.toLowerCase().match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
         return isPC === null
     }
-    static isIOS () {
+    static isIOS (): boolean {
         const Navigator = navigator.userAgent.toLowerCase();
         const IOS = Navigator.toLowerCase().match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Windows Phone)/i);
         return IOS !== null;
+    }
+    static iosVersion (): number {
+        const version: RegExpMatchArray = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/)||[];
+        if (Object.prototype.toString.call(version) === '[object Null]'||version.length <= 0) return 0;
+        return Number(`${version[1]}.${version[2]}`);
     }
     // 判断手机是否横竖屏
     static isVertical () {

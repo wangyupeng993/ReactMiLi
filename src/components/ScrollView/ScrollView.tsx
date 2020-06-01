@@ -11,7 +11,6 @@ function ScrollView (props:ScrollViewProps) {
             probeType: 3,
             scrollX: props.scrollX,
             scrollY: props.scrollY,
-            bounce: !ObjectDetection.isIOS(),
             click: true
         });
         scroll.refresh();
@@ -21,18 +20,44 @@ function ScrollView (props:ScrollViewProps) {
         }
 
         // 监听滚动事件
-        if (props.onScroll) {
-            scroll.on('scroll', (pos:any) => {
-                props.onScroll&&props.onScroll(scroll,pos);
-            });
-        }
+        scroll.on('scroll', (pos:any) => {
+            const iosVersion = ObjectDetection.iosVersion();
+            if (iosVersion >= 13.4&&props.scrollY&&pos.y <= scroll.maxScrollY||iosVersion >= 13.4&&props.scrollY&&pos.y >= 0||iosVersion >= 13.4&&props.scrollX&&pos.x <= scroll.maxScrollX||iosVersion >= 13.4&&props.scrollX&&pos.x >= 0) {
+                scroll.stop();
+            }
+            props.onScroll&&props.onScroll(scroll,pos);
+        });
+
+
+        /*scroll.on('touchEnd',(pos:any) => {
+            const iosVersion = ObjectDetection.iosVersion();
+            if (iosVersion >= 13.4&&props.scrollY&&pos.y <= scroll.maxScrollY) {
+                scroll.scrollTo(0,scroll.maxScrollY);
+            }
+            if (iosVersion >= 13.4&&pos.y >= 0) {
+                scroll.scrollTo(0,0);
+            }
+        })*/
 
         // 监听滚动结束事件
-        if (props.onScrollEnd) {
-            scroll.on('scrollEnd', (pos:any) => {
-                props.onScrollEnd&&props.onScrollEnd(scroll,pos);
-            });
-        }
+        scroll.on('scrollEnd', (pos:any) => {
+            const iosVersion = ObjectDetection.iosVersion();
+            if (iosVersion >= 13.4&&props.scrollY&&pos.y <= scroll.maxScrollY) {
+                scroll.scrollTo(0,scroll.maxScrollY);
+            }
+            if (iosVersion >= 13.4&&props.scrollY&&pos.y >= 0) {
+                scroll.scrollTo(0,0);
+            }
+            if (iosVersion >= 13.4&&props.scrollX&&pos.x <= scroll.maxScrollX) {
+                scroll.scrollTo(scroll.maxScrollX,0);
+            }
+            if (iosVersion >= 13.4&&props.scrollX&&pos.x >= 0) {
+                scroll.scrollTo(0,0);
+            }
+            props.onScrollEnd&&props.onScrollEnd(scroll,pos);
+        });
+
+        // 监听滚动结束事件
 
         // 上拉加载更多
         if (props.onScrollDown) {
