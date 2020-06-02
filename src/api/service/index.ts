@@ -25,7 +25,20 @@ const service = {
     userWxPayStatus: (data: {userId: string}):Promise<any> => request({
         url: `/queryUserPayStatus?userId=${data.userId}`,
         method: 'POST'
+    }),
+    queryVideoPlay: (data: {liveId: number, openId?:string}):Promise<any> => request({
+        headers:{
+            'Content-Type': 'application/json;charset=UTF-8'
+        },
+        url: `/queryLiveInfo`,
+        method: 'POST',
+        data
+    }),
+    queryVideoAdv: (data: {liveId: number}):Promise<any> => request({
+        url: `/queryUserLiveAdvert?liveId=${data.liveId}`,
+        method: 'GET'
     })
 }
+
 
 export default service;

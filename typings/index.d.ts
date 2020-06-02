@@ -22,6 +22,7 @@ interface ScrollViewProps {
     onScrollDown?:Function
     className?:string|object
     children?: string|object|Array<any>
+    bounce?: boolean
 }
 
 interface SwiperViewOptions {

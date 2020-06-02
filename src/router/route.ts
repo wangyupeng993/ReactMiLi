@@ -18,6 +18,13 @@ const routes = [{
     }),
     meta: {name: '技术升级', icon: ''}
 },{
+    path: '/wxVideoPlay',
+    component: loadable({
+        loader: () => import('../views/pages/wxVideoPlay/index'),
+        loading: () => null
+    }),
+    meta: {name: '直播回放', icon: ''}
+},{
     path: '/login',
     hidden: true,
     component: loadable({
