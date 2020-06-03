@@ -31,6 +31,7 @@ function WxVideoPlay () {
     const [videoId] = useState(ObjectDetection.GetUrlParam('videoId'));
     const [videoInfo,setVideoInfo] = useState({backVideoUrl: ''});
     const [advLoopIndex,setLoopIndex] = useState(0);
+    const [advArray,setAdvArray] = useState([]);
     let [advInterval,setAdvInterval] = useState(0);
     const queryVideoPlay = async () => {
         try {
@@ -48,7 +49,7 @@ function WxVideoPlay () {
                 videoElem.current.play();
             })
         }catch (e) {
-
+            console.log(e,'============================');
         }
     }
     const queryVideoAdv = async () => {
@@ -56,13 +57,15 @@ function WxVideoPlay () {
         let Index = 0;
         clearInterval(advInterval);
         if (ObjectDetection.isArray(result) && result.length > 0) {
+            setAdvArray(result);
             advInterval = window.setInterval(() => {
                 Index++;
                 setLoopIndex(Index%result.length);
-            },1000);
+            },60000);
             setAdvInterval(advInterval);
         }
     }
+    const navigator = (url: string) => window.open(url,'_self');
     useEffect(() => {
         queryVideoPlay();
         queryVideoAdv();
@@ -78,10 +81,28 @@ function WxVideoPlay () {
                        className={'container object-fit-cover'} controls={true} autoPlay={true}
                        x-webkit-airplay={`true`} x5-video-player-type={'h5'}
                        x5-playsinline={`true`} webkit-playsinline={`true`} playsInline={true}></video>
-                <div className={'absolute absolute-b absolute-l absolute-r padding-sm text-xl text-white'}></div>
+
+                <div className={'absolute absolute-b absolute-l absolute-r padding-xs text-xl text-white margin-bottom-xl margin-left-sm'}>
+                    {advArray.map((item: any,index) => {
+                        return <Transition timeout={0} in={advLoopIndex === index} enter={false} exit={false} key={index}>{
+                            (status) => {
+                                return (<div className={`flex absolute absolute-b absolute-l absolute-r padding-xs radius-sm bg-white fade-fadeInLeft-init fade-fadeInLeft-${status}`}
+                                             onClick={() => navigator(item.advertLink)} style={{maxWidth: `${422/46.875}rem`}}>
+                                    <div className={''} style={{width: `${92/46.875}rem`,height: `${92/46.875}rem`}}>
+                                        <img className={'container object-fit-cover'} src={item.advertImgUrl} alt="" />
+                                    </div>
+                                    <div className={'basis-xl hidden margin-left-sm'}>
+                                        <p className={'text-black text-lg text-hidden'}>{item.title}</p>
+                                        <p className={'text-red text-df text-hidden'}>￥{item.money}</p>
+                                    </div>
+                                </div>)
+                            }
+                        }</Transition>
+                    })}
+                </div>
             </div>
         </ScrollView>
     </div>)
 }
 
-export default connect(mapStateToProps,mapDispatchToProps,)(WxVideoPlay);
+export default connect(mapStateToProps,mapDispatchToProps)(WxVideoPlay);

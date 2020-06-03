@@ -284,11 +284,14 @@
 .margin-left-sm {
   margin-left: 0.42666667rem;
 }
-.margin-left-lg {
+.margin-left-df {
   margin-left: 0.85333333rem;
 }
-.margin-left-xl {
+.margin-left-lg {
   margin-left: 1.06666667rem;
+}
+.margin-left-xl {
+  margin-left: 1.28rem;
 }
 .margin-right {
   margin-right: 0.64rem;
