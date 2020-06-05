@@ -87,7 +87,7 @@ function WxVideoPlay () {
                     {advArray.map((item: any,index) => {
                         return <Transition timeout={0} in={advLoopIndex === index} enter={false} exit={false} key={index}>{
                             (status) => {
-                                return (<div className={`flex absolute absolute-l absolute-r padding-xs radius-sm bg-white fade-fadeInLeft-init fade-fadeInLeft-${status}`}
+                                return (<div className={`flex absolute absolute-b absolute-l absolute-r padding-xs radius-sm bg-white fade-fadeInLeft-init fade-fadeInLeft-${status}`}
                                              onClick={() => navigator(item.advertLink)} style={{maxWidth: `${422/46.875}rem`}}>
                                     <div className={''} style={{width: `${92/46.875}rem`,height: `${92/46.875}rem`}}>
                                         <img className={'container object-fit-cover'} src={item.advertImgUrl} alt="" />
