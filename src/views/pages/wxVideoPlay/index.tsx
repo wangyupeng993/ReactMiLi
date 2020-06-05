@@ -82,11 +82,12 @@ function WxVideoPlay () {
                        x-webkit-airplay={`true`} x5-video-player-type={'h5'}
                        x5-playsinline={`true`} webkit-playsinline={`true`} playsInline={true}></video>
 
-                <div className={'absolute absolute-b absolute-l absolute-r padding-xs text-xl text-white margin-bottom-xl margin-left-sm'}>
+                <div className={'absolute absolute-l absolute-r padding-xs text-xl text-white margin-left-sm'}
+                     style={{bottom: `${94/46.875}rem`}}>
                     {advArray.map((item: any,index) => {
                         return <Transition timeout={0} in={advLoopIndex === index} enter={false} exit={false} key={index}>{
                             (status) => {
-                                return (<div className={`flex absolute absolute-b absolute-l absolute-r padding-xs radius-sm bg-white fade-fadeInLeft-init fade-fadeInLeft-${status}`}
+                                return (<div className={`flex absolute absolute-l absolute-r padding-xs radius-sm bg-white fade-fadeInLeft-init fade-fadeInLeft-${status}`}
                                              onClick={() => navigator(item.advertLink)} style={{maxWidth: `${422/46.875}rem`}}>
                                     <div className={''} style={{width: `${92/46.875}rem`,height: `${92/46.875}rem`}}>
                                         <img className={'container object-fit-cover'} src={item.advertImgUrl} alt="" />
