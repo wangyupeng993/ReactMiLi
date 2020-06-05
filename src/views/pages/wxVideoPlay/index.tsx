@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef, RefObject} from 'react';
 import {ScrollView} from "../../../components";
+import {NavLink} from "react-router-dom";
 import {Transition} from "react-transition-group";
 import {connect} from "react-redux";
 import ObjectDetection from "../../../api/methods/validator";
@@ -13,7 +14,7 @@ import {wxConfig} from "../../../api/methods/common";
  */
 const mapStateToProps = (state:any,props:any) => {
     return {
-        userInfo: state.User.userInfo||{userId: '',userNam:''}
+        userInfo: state.User.userInfo||JSON.parse(sessionStorage.getItem('userInfo') as string)
     }
 }
 
@@ -24,11 +25,12 @@ const mapDispatchToProps = (dispatch:any) => {
     }
 }
 
-function WxVideoPlay () {
+function WxVideoPlay (props: any) {
     const videoElem: RefObject<any> = useRef();
     const [userId] = useState(ObjectDetection.GetUrlParam('userId'));
     const [openId] = useState(ObjectDetection.GetUrlParam('openId'));
     const [videoId] = useState(ObjectDetection.GetUrlParam('videoId'));
+    const [userInfo,setUserInfo] = useState(props.userInfo);
     const [videoInfo,setVideoInfo] = useState({backVideoUrl: ''});
     const [advLoopIndex,setLoopIndex] = useState(0);
     const [advArray,setAdvArray] = useState([]);
@@ -67,6 +69,11 @@ function WxVideoPlay () {
     }
     const navigator = (url: string) => window.open(url,'_self');
     useEffect(() => {
+        service.getUserInfo({userId}).then(response => {
+            const {userInfo} = response;
+            const {payload} = props.getUserInfo(userInfo);
+            setUserInfo(payload.userInfo);
+        });
         queryVideoPlay();
         queryVideoAdv();
         return () => {
@@ -100,6 +107,12 @@ function WxVideoPlay () {
                             }
                         }</Transition>
                     })}
+                    {ObjectDetection.isPlainObject(userInfo)?<div className={'fr'} style={{width: `${120/46.875}rem`,height: `${150/46.875}rem`}}>
+                        {userInfo.payStatus?'':<NavLink to={`/skillupgrade?userId=${userInfo.userId}`}>
+                            <img className={'container'}
+                                 src={require('../../../assets/images/myStartLive.gif')} alt="" />
+                        </NavLink>}
+                    </div>:''}
                 </div>
             </div>
         </ScrollView>

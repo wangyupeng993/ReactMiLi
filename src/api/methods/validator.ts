@@ -44,13 +44,17 @@ class ObjectDetection {
     static isFunction (V: any) {
         return Object.prototype.toString.call(V) === '[object Function]'
     }
+    // 检查是不是string 类型
+    static isString(V: any): boolean {
+        return Object.prototype.toString.call(V) === '[object String]'
+    }
     // 检查 value 是否为有效的类数组长度
     isLength (V: any) {
         return typeof V === 'number' && V > -1 && V % 1 === 0 && V <= Number.MAX_SAFE_INTEGER
     }
 
     // 获取url参数
-    static GetUrlParam (name:string):string {
+    static GetUrlParam (name: string): string {
         const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
         const StrArr:any = window.location.search.substr(1).match(reg)||window.location.hash.substring((window.location.hash.search(/\?/)) + 1).match(reg)
         if (StrArr !== null) {
@@ -75,58 +79,58 @@ class ObjectDetection {
         return Number(`${version[1]}.${version[2]}`);
     }
     // 判断手机是否横竖屏
-    static isVertical () {
+    static isVertical (): boolean {
         return window.orientation === 180 || window.orientation === 0
     }
     // 判断是否微信平台
-    static isWeex () {
+    static isWeex (): boolean {
         const Navigator = navigator.userAgent.toLowerCase()
         const isweex = Navigator.match(/(MicroMessenger)/i)
         return isweex !== null
     }
     // 判断是否为整数
-    static isInteger (string:any) {
+    static isInteger (string: string): boolean {
         const isInteger = new RegExp('^\\+?[0-9][0-9]*$')
         return isInteger.test(string)
     }
     // 检测菲律宾手机号是否包含小数点
-    static isPHPInteger (string:any) {
+    static isPHPInteger (string: string): boolean {
         const isInteger = new RegExp('^\\+?[0-9][0-9]*$')
         return isInteger.test(string)
     }
     // 检测QQ
-    static isQQ (string:any) {
+    static isQQ (string: string): boolean {
         const isQQ = new RegExp('^\\s*[0-9]{5,11}\\s*$')
         return isQQ.test(string)
     }
     // 检测电话号码
-    static isTel (string:any) {
+    static isTel (string: string): boolean {
         const isTel = new RegExp('^0\\d{2,3}-?\\d{7,8}$')
         return isTel.test(string)
     }
     // 检测国内手机号
-    static isPhone (string:any) {
+    static isPhone (string: string): boolean {
         const isPhone = new RegExp('^1[3456789]\\d{9}$')
         return isPhone.test(string)
     }
     // 检测菲律宾手机号
-    static isPHPMobil (string:any) {
+    static isPHPMobil (string: string): boolean {
         const isPhone = new RegExp('^0[9]\\d{9}$')
         return isPhone.test(string)
     }
     // 检测邮箱
-    static isEmail (string:any) {
+    static isEmail (string: string): boolean {
         const Email = new RegExp('^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$')
         return Email.test(string)
     }
     // 检验密码是否数字加字母且不能有特殊字符
-    static isLettersNumber (string:any) {
+    static isLettersNumber (string: string): boolean {
         const isLettersNumber = new RegExp('^[A-Za-z].*[0-9]|[0-9].*[A-Za-z]+$')
         return isLettersNumber.test(string)
     }
-    static isNull (string:any) {
+    static isNull (string: string): boolean {
         const space = new RegExp('^[ ]+$')
-        if (string === '') return true
+        if (string === ''||Object.prototype.toString.call(string) === '[object Null]') return true
         return space.test(string)
     }
 }
