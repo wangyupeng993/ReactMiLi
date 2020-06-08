@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import ObjectDetection from "../../../api/methods/validator";
 import service from "../../../api/service";
 import {wxConfig} from "../../../api/methods/common";
+import DPlayer from "dplayer";
 
 /*
 * 将需要的state的节点注入到与此视图数据相关的组件上
@@ -35,6 +36,7 @@ function WxVideoPlay (props: any) {
     const [advLoopIndex,setLoopIndex] = useState(0);
     const [advArray,setAdvArray] = useState([]);
     let [advInterval,setAdvInterval] = useState(0);
+
     const queryVideoPlay = async () => {
         try {
             const wxOptions = await service.getWxConfig({url: window.location.href.split('#')[0]});
@@ -48,7 +50,7 @@ function WxVideoPlay (props: any) {
                 signature: wxOptions.signature,
                 timestamp: Number(wxOptions.timestamp)
             }).then((wx) => {
-                videoElem.current.play();
+                newDPlayer(result.backVideoUrl);
             })
         }catch (e) {
             console.log(e,'============================');
@@ -68,6 +70,22 @@ function WxVideoPlay (props: any) {
         }
     }
     const navigator = (url: string) => window.open(url,'_self');
+    const newDPlayer = (url: string) => {
+        const dp = new DPlayer({
+            container: videoElem.current,
+            autoplay: true,
+            video: {
+                url: url,
+                type: 'auto'
+            },
+            subtitle: {
+                url: '',
+                fontSize: `${20/46.875}rem`,
+            }
+        });
+        dp.play();
+    }
+
     useEffect(() => {
         service.getUserInfo({userId}).then(response => {
             const {userInfo} = response;
@@ -80,14 +98,16 @@ function WxVideoPlay (props: any) {
             clearInterval(advInterval);
             setAdvInterval(advInterval);
         }
-    },[])
+    },[]);
+
     return (<div className={'container hidden'}>
         <ScrollView scrollY>
             <div className={'main relative'}>
-                <video ref={videoElem} src={videoInfo.backVideoUrl}
+                <div ref={videoElem} className={'container'}></div>
+                {/*<video ref={videoElem} src={videoInfo.backVideoUrl}
                        className={'container object-fit-cover'} controls={true} autoPlay={true}
                        x-webkit-airplay={`true`} x5-video-player-type={'h5'}
-                       x5-playsinline={`true`} webkit-playsinline={`true`} playsInline={true}></video>
+                       x5-playsinline={`true`} webkit-playsinline={`true`} playsInline={true}></video>*/}
 
                 <div className={'absolute absolute-l absolute-r padding-xs text-xl text-white margin-left-sm'}
                      style={{bottom: `${94/46.875}rem`}}>
