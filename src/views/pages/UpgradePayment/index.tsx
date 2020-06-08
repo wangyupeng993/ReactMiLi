@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import service from "../../../api/service";
 import {wxConfig,wxRequestPayment} from "../../../api/methods/common";
 import {ScrollView} from "../../../components/index";
-import Storage from "../../../api/methods/storage";
 
 /*
 * 将需要的state的节点注入到与此视图数据相关的组件上
@@ -13,7 +12,7 @@ import Storage from "../../../api/methods/storage";
  */
 const mapStateToProps = (state:any,props:any) => {
     return {
-        userInfo: state.User.userInfo||Storage.getSession('userInfo')
+        userInfo: state.User.userInfo||JSON.parse(sessionStorage.getItem('userInfo') as string)
     }
 }
 
@@ -24,12 +23,12 @@ const mapDispatchToProps = (dispatch:any) => {
     }
 }
 
-function SkillPay () {
+function SkillPay (props: any) {
     const [payment,setPaymente] = useState({
         amount: 399,
         year: 1
     })
-    const [userInfo,setUserInfo] = useState(Storage.getSession('userInfo'));
+    const [userInfo,setUserInfo] = useState(props.userInfo);
     const paymentYear = (year:number) => {
         setPaymente({
             amount: 399,
@@ -78,7 +77,7 @@ function SkillPay () {
     }
 
     useEffect(() => {
-        if (Object.prototype.toString.call(userInfo.userId) === '[object Null]'||ObjectDetection.isNull(userInfo.userId)) {
+        if (ObjectDetection.isNull(userInfo.userId)) {
             window.open('https://xmmlwl.com/wechatlogin','_self');
             return ;
         }

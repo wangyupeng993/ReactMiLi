@@ -69,7 +69,6 @@ function WxVideoPlay (props: any) {
             setAdvInterval(advInterval);
         }
     }
-    const navigator = (url: string) => window.open(url,'_self');
     const newDPlayer = (url: string) => {
         const dp = new DPlayer({
             container: videoElem.current,
@@ -104,10 +103,6 @@ function WxVideoPlay (props: any) {
         <ScrollView scrollY>
             <div className={'main relative'}>
                 <div ref={videoElem} className={'container'}></div>
-                {/*<video ref={videoElem} src={videoInfo.backVideoUrl}
-                       className={'container object-fit-cover'} controls={true} autoPlay={true}
-                       x-webkit-airplay={`true`} x5-video-player-type={'h5'}
-                       x5-playsinline={`true`} webkit-playsinline={`true`} playsInline={true}></video>*/}
 
                 <div className={'absolute absolute-l absolute-r padding-xs text-xl text-white margin-left-sm'}
                      style={{bottom: `${94/46.875}rem`}}>
@@ -115,7 +110,8 @@ function WxVideoPlay (props: any) {
                         return <Transition timeout={0} in={advLoopIndex === index} enter={false} exit={false} key={index}>{
                             (status) => {
                                 return (<div className={`flex absolute absolute-b absolute-l absolute-r padding-xs radius-sm bg-white fade-fadeInLeft-init fade-fadeInLeft-${status}`}
-                                             onClick={() => navigator(item.advertLink)} style={{maxWidth: `${422/46.875}rem`}}>
+                                             onClick={() => window.open(item.advertLink,'_self')}
+                                             style={{maxWidth: `${422/46.875}rem`}}>
                                     <div className={''} style={{width: `${92/46.875}rem`,height: `${92/46.875}rem`}}>
                                         <img className={'container object-fit-cover'} src={item.advertImgUrl} alt="" />
                                     </div>

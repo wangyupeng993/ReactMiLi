@@ -25,12 +25,12 @@ const mapDispatchToProps = (dispatch: Function) => {
     }
 }
 
-function Skill(props:any) {
+function Skill(props: any) {
     const [userId] = useState(ObjectDetection.GetUrlParam('userId'));
     const [userInfo,setUserInfo] = useState(props.userInfo);
     useEffect(() => {
         if (ObjectDetection.isNull(userId)) {
-            // window.open('https://xmmlwl.com/wechatlogin','_self');
+            window.open('https://xmmlwl.com/wechatlogin','_self');
             return ;
         }
         service.getUserInfo({userId}).then(response => {
