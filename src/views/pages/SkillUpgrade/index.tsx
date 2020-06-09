@@ -6,31 +6,14 @@ import ObjectDetection from "../../../api/methods/validator";
 import {privilege} from './utils';
 import {ScrollView,SwiperView} from "../../../components/index";
 import service from "../../../api/service";
-
-/*
-* 将需要的state的节点注入到与此视图数据相关的组件上
-* state：redux 数据
-* props：外部组件或者父组件传递过来的数据
- */
-const mapStateToProps = (state: any,props: any) => {
-    return {
-        userInfo: state.User.userInfo||JSON.parse(sessionStorage.getItem('userInfo') as string)
-    }
-}
-
-// 将需要绑定的响应事件注入到组件上
-const mapDispatchToProps = (dispatch: Function) => {
-    return {
-        getUserInfo: (payload:{userId:string,userNam:string}) => dispatch({type: 'getUserInfo', payload: {userInfo:payload}})
-    }
-}
+import {mapDispatchToProps,mapStateToProps} from "../../../redux/mapProps";
 
 function Skill(props: any) {
     const [userId] = useState(ObjectDetection.GetUrlParam('userId'));
     const [userInfo,setUserInfo] = useState(props.userInfo);
     useEffect(() => {
         if (ObjectDetection.isNull(userId)) {
-            window.open('https://xmmlwl.com/wechatlogin','_self');
+            // window.open('https://xmmlwl.com/wechatlogin','_self');
             return ;
         }
         service.getUserInfo({userId}).then(response => {

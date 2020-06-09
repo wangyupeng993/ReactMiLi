@@ -4,24 +4,7 @@ import {connect} from "react-redux";
 import service from "../../../api/service";
 import {wxConfig,wxRequestPayment} from "../../../api/methods/common";
 import {ScrollView} from "../../../components/index";
-
-/*
-* 将需要的state的节点注入到与此视图数据相关的组件上
-* state：redux 数据
-* props：外部组件或者父组件传递过来的数据
- */
-const mapStateToProps = (state:any,props:any) => {
-    return {
-        userInfo: state.User.userInfo||JSON.parse(sessionStorage.getItem('userInfo') as string)
-    }
-}
-
-// 将需要绑定的响应事件注入到组件上
-const mapDispatchToProps = (dispatch:any) => {
-    return {
-        getUserInfo: (payload:{userId:string,userNam:string}) => dispatch({type: 'getUserInfo', payload: {userInfo:payload}})
-    }
-}
+import {mapDispatchToProps,mapStateToProps} from "../../../redux/mapProps";
 
 function SkillPay (props: any) {
     const [payment,setPaymente] = useState({
