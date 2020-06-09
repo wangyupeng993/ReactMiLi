@@ -58,7 +58,7 @@ function WxVideoPlay (props: any) {
         <ScrollView scrollY>
             <div className={'main relative'}>
                 <div ref={videoElem} className={'container'}></div>
-                <AdvLoop />
+                {ObjectDetection.isPlainObject(userInfo)? <AdvLoop /> : ''}
             </div>
         </ScrollView>
     </div>)
