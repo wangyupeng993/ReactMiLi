@@ -21,7 +21,7 @@
     "@types/react-transition-group": "^4.2.4",
     "@types/redux-thunk": "^2.1.0",
     "@types/video.js": "^7.3.9",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "better-scroll": "^1.15.2",
     "dplayer": "^1.25.1",
     "react": "^16.13.1",
